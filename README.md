@@ -1,76 +1,99 @@
 # PHP-PG-SDK
 
-헥토파이낸셜 PG 연동을 위한 PHP 샘플 코드입니다.
+헥토파이낸셜 PG 결제창(UI) 연동을 위한 PHP 샘플 코드입니다.
 
-**✅ 권장 버전**: 이 버전은 PHP5 >= 5.3 기준으로 만들어졌으며, openssl 암복호화 패키지를 이용합니다. (권장)
+> 공식 개발자 문서: [https://developers.hectofinancial.co.kr/docs/api/pg/sdk/01-sdk](https://developers.hectofinancial.co.kr/docs/api/pg/sdk/01-sdk)
 
-**⚠️ 참고**: PHP5 < 5.3 환경을 사용해야 하는 경우 [PHP5.2-PG-SDK](../PG2_PHP_5.2_v1.6)를 사용하시기 바랍니다. 단, 해당 버전은 지원종료된 mcrypt 패키지를 사용하므로 권장하지 않습니다.
+**권장 버전**: PHP 5.3 이상 + openssl 패키지 (권장)
+
+## 개요
+
+본 샘플코드는 **결제창(UI) 방식**입니다. 헥토파이낸셜 JavaScript SDK(`SettlePG`)를 사용하여 팝업 또는 iframe 형태로 결제창을 띄웁니다.
+
+- API 직접 호출(Non-UI) 방식은 별도 샘플 코드를 참고하세요.
+- 민감정보 암호화(AES256) 및 해시 생성은 반드시 서버(PHP)에서 처리해야 합니다.
 
 ## 파일 구조
 
 ```
 /(Project Root Directory)
-     |   
-    │  index.html			<--- index페이지
-    │  config.php			<--- 기본정보 설정파일(*자사에 맞게 변경 필요)
-     |   settleUtils.php		<--- 유틸성 함수가 선언된 페이지
-     |   
-    │  pay_form.php		<--- 결제시 메인 폼
-    │  pay_encryptParams.php	<--- 결제시 파라미터 암호화 및 해쉬 처리 페이지
-     |   pay_autoPayResult.php	<--- 휴대폰 자동연장결제시 사용되는 페이지
-    │  pay_receiveResult.php	<--- 결제 완료 후 응답파라미터 수신페이지
-    │  pay_showResult.php		<--- 자식페이지에서 전달된 응답파라미터 출력
-     |   
-    │  cancel_form.php		<--- 취소 메인 폼
-    │  cancel_showResult.php	<--- 취소 처리 및 결과 화면
-     |   
-    │  receiveNoti.php		<--- 결제 완료 후 노티 수신 페이지
-    │  processNoti.php		<--- 노티 수신 후 처리하는 페이지
-     |   
+    │
+    ├── index.html                  # 인덱스 페이지
+    ├── config.php                  # 기본정보 설정파일 (* 자사에 맞게 변경 필요)
+    ├── settleUtils.php             # 유틸성 함수 모음
+    │
+    ├── pay_form.php                # 결제 메인 폼
+    ├── pay_encryptParams.php       # 파라미터 AES256 암호화 및 SHA256 해시 처리 (AJAX)
+    ├── pay_receiveResult.php       # 결제 완료 후 응답 파라미터 수신 페이지
+    ├── pay_showResult.php          # 결제 결과 출력 페이지
+    ├── pay_autoPayResult.php       # 휴대폰 자동연장 결제 결과 페이지
+    │
+    ├── cancel_form.php             # 취소 요청 폼
+    ├── cancel_showResult.php       # 취소 처리 및 결과 화면
+    │
+    ├── receiveNoti.php             # 결제/취소 완료 후 노티 수신 페이지
+    └── processNoti.php             # 노티 수신 후 처리 로직
 ```
 
-## 📄 파일 설명
+## 파일 설명
 
-### 🔧 공통 페이지
-- **config.php**: 상점아이디, 암복호화키 등을 설정할 수 있는 설정 파일입니다.
-- **settleUtils.php**: 유틸성 함수가 선언된 페이지입니다. PHP에 curl 패키지와 openssl 패키지가 설치되어 있어야 정상 작동합니다.
-- **receiveNoti.php**: 결제 또는 취소 처리가 완료된 후, 헥토파이낸셜에서 가맹점으로 전달하는 노티(결과통보)를 수신하는 페이지입니다.
-- **processNoti.php**: receiveNoti.php에서 결제 또는 취소의 성공/실패에 따라 적절한 로직을 수행하는 메소드를 정의한 파일입니다.
+### 공통 파일
+- **config.php**: 상점아이디, 암복호화키, 서버 URL 등을 설정합니다. 운영 환경에서는 반드시 실제 값으로 교체해야 합니다.
+- **settleUtils.php**: 로그, AES256 암복호화, API 통신 등 공통 함수가 정의된 파일입니다. PHP에 `curl` 및 `openssl` 패키지가 설치되어 있어야 합니다.
+- **receiveNoti.php**: 결제 또는 취소 완료 후, 헥토파이낸셜 서버에서 가맹점으로 전달하는 노티(결과통보)를 수신하는 페이지입니다.
+- **processNoti.php**: 노티 수신 후 성공/실패에 따라 가맹점 내부 로직을 처리하는 함수를 정의한 파일입니다.
 
-### 💳 결제 관련 페이지
-- **pay_form.php**: 결제 요청 시 사용자로부터 정보를 입력받는 Form 페이지입니다. 결제는 Form POST 방식으로 처리됩니다.
-- **pay_encryptParams.php**: pay_form.php에서 암호화가 필요한 파라미터들을 AJAX 통신으로 암호화하는 페이지입니다. 또한 SHA256 해시 처리도 수행합니다. PHP에 curl 패키지와 openssl 패키지가 설치되어 있어야 정상 작동합니다.
-- **pay_receiveResult.php**: 결제창에서 결제가 완료된 이후 닫기 버튼을 누를 때, 헥토파이낸셜로부터 응답 파라미터를 수신하는 페이지입니다.
-- **pay_showResult.php**: pay_receiveResult.php에서 받은 파라미터를 부모창으로 전송할 수 있는데, 이때 전송된 파라미터들을 수신하여 출력하는 페이지입니다.
-- **pay_autoPayResult.php**: 휴대폰 자동연장 결제 시 사용되는 결제 및 결과화면 페이지입니다.
+### 결제 관련 파일
+- **pay_form.php**: 결제 요청 폼 페이지입니다. AJAX로 `pay_encryptParams.php`를 호출하여 민감정보를 암호화한 후 SDK를 통해 결제창을 띄웁니다.
+- **pay_encryptParams.php**: `pay_form.php`에서 AJAX로 호출되며, 민감정보 AES256 암호화 및 SHA256 해시 생성을 처리합니다.
+- **pay_receiveResult.php**: 결제창에서 결제 완료 후 응답 파라미터를 수신하는 페이지입니다.
+- **pay_showResult.php**: `pay_receiveResult.php`로부터 파라미터를 전달받아 결제 결과를 출력합니다.
+- **pay_autoPayResult.php**: 휴대폰 자동연장 결제 시 사용되는 결제 및 결과 페이지입니다.
 
-### ❌ 취소 관련 페이지
-- **cancel_form.php**: 취소 요청 시 사용자로부터 정보를 입력받는 Form 페이지입니다.
-- **cancel_showResult.php**: 헥토파이낸셜과 Server to Server로 커넥션하여, 취소 요청을 하고 응답을 받아 결과를 출력하는 페이지입니다.
+### 취소 관련 파일
+- **cancel_form.php**: 취소 요청 시 필요한 정보를 입력받는 폼 페이지입니다.
+- **cancel_showResult.php**: 헥토파이낸셜과 Server to Server 통신으로 취소를 요청하고 결과를 출력합니다.
 
-## 🔄 프로세스 처리 순서
+## 페이지 처리 순서
 
-- **결제 처리 순서**: pay_form.php → pay_encryptParams.php → pay_receiveResult.php → pay_showResult.php
-- **휴대폰 자동연장 결제**: pay_form.php → pay_autoPayResult.php
-- **취소 처리 순서**: cancel_form.php → cancel_showResult.php
-- **노티 처리 순서**: receiveNoti.php → processNoti.php
+| 기능 | 순서 |
+|------|------|
+| 결제 | pay_form.php → pay_encryptParams.php(AJAX) → pay_receiveResult.php → pay_showResult.php |
+| 휴대폰 자동연장 결제 | pay_form.php → pay_autoPayResult.php |
+| 취소 | cancel_form.php → cancel_showResult.php |
+| 노티 | receiveNoti.php → processNoti.php |
 
-## ⚙️ config.php 설정 파일 변수 설명
+## config.php 설정 변수
 
-- **PG_MID**: 상점아이디. 테스트환경에서의 상점아이디는 샘플소스에 기재되어 있습니다. 상용테스트 시에는 헥토파이낸셜에서 발급한 MID로 설정하셔야 합니다. 이 값은 외부에 노출되어서는 안됩니다.
-- **LICENSE_KEY**: MID당 하나의 라이센스키가 발급됩니다. SHA256 해시체크 용도로 사용됩니다. 이 값은 외부에 노출되어서는 안됩니다.
-- **AES256_KEY**: 개인정보/민감정보를 암복호화하는데 사용되는 키로서, 외부에 노출되어서는 안됩니다.
-- **PAYMENT_SERVER**: 헥토파이낸셜 결제 처리 서버의 URL입니다. 변경하지 마십시오.
-- **CANCEL_SERVER**: 헥토파이낸셜 취소 처리 서버의 URL입니다. 변경하지 마십시오.
-- **CONN_TIMEOUT**: 헥토파이낸셜 API 통신 curl 연결 타임아웃입니다.
-- **TIMEOUT**: 헥토파이낸셜 API 통신 curl 전체 타임아웃입니다.
-- **LOG_DIR**: 로그파일을 남길 디렉터리입니다. 디렉터리가 존재해야 로그파일이 생성됩니다.
-- **LOG_FILE**: 결제 또는 취소 거래에 대한 로그를 남길 파일명입니다.
-- **NOTI_LOG_FILE**: 노티 처리에 대한 로그를 남길 파일명입니다.
+| 변수명 | 설명 |
+|--------|------|
+| `PG_MID` | 상점아이디. 테스트용 MID는 소스에 기재되어 있습니다. 운영 시 헥토파이낸셜에서 발급한 MID로 교체하세요. **외부 노출 금지** |
+| `LICENSE_KEY` | MID당 1개 발급되는 라이센스키. SHA256 해시 생성에 사용됩니다. **외부 노출 금지** |
+| `AES256_KEY` | 개인정보/민감정보 AES256 암복호화에 사용되는 키. **외부 노출 금지** |
+| `PAYMENT_SERVER` | 헥토파이낸셜 결제창 서버 URL. 테스트/운영 서버 주석을 전환하여 사용합니다. |
+| `CANCEL_SERVER` | 헥토파이낸셜 취소 API 서버 URL. 테스트/운영 서버 주석을 전환하여 사용합니다. |
+| `CONN_TIMEOUT` | curl 연결 타임아웃 (초) |
+| `TIMEOUT` | curl 전체 타임아웃 (초) |
+| `LOG_DIR` | 로그 파일을 저장할 디렉터리 경로. 디렉터리가 존재해야 로그가 생성됩니다. |
+| `LOG_FILE` | 결제/취소 거래 로그 파일명 |
+| `NOTI_LOG_FILE` | 노티 처리 로그 파일명 |
 
-## 📢 노티 수신 페이지
+## 노티(Noti) 수신
 
-- **파일명**: receiveNoti.php
-- 결제 또는 취소 완료 후 헥토파이낸셜 서버에서 콜백으로 호출하게 되는 페이지이며, 헥토파이낸셜에서 가맹점으로 노티를 전송합니다.
-- nextUrl(결과페이지)에서는 성공/실패에 대한 결과 화면을 고객에게 리턴하여 주시고,
-- notiUrl(노티수신페이지)에서는 가맹점의 실제 내부데이터, DB를 처리하시면 됩니다.
+결제 또는 취소 완료 후 헥토파이낸셜 서버에서 가맹점의 `receiveNoti.php`를 콜백 호출합니다.
+
+- `nextUrl`(결과 페이지): 고객에게 결제 성공/실패 결과 화면을 반환합니다.
+- `notiUrl`(노티 수신 페이지): 가맹점 내부 데이터/DB를 처리합니다.
+- 처리 완료 시 `"OK"`, 실패 시 `"FAIL"` 반환 (FAIL 반환 시 설정된 횟수만큼 재전송).
+
+## 테스트 환경
+
+- 결제창 테스트 서버: `https://tbnpg.settlebank.co.kr`
+- 취소 API 테스트 서버: `https://tbgw.settlebank.co.kr`
+- 테스트 MID 및 키 정보는 개발자 문서를 참고하세요.
+- 테스트 환경에서는 **실제 카드번호 사용을 금지**합니다.
+
+## 문의
+
+- 기술 문의: [헥토파이낸셜 개발자 센터](https://developers.hectofinancial.co.kr)
+- 가맹점 문의: 1688-5130
