@@ -100,8 +100,8 @@ $noti = array(
     "해시값:".$pktHash
 );
 
-/** 해쉬 조합 필드 
- *  결과코드 +  거래일시 + 상점아이디 + 가맹점거래번호 + 거래금액 + 라이센스키 */
+/** 해쉬 조합 필드
+ *  결과코드 +  거래일시 + 상점아이디 + 가맹점거래번호 + 거래금액(평문) + 라이센스키 */
 $hashPlain = $outStatCd.$trdDtm.$mchtId.$mchtTrdNo.$trdAmt.$licenseKey;
 $hashCipher ="";
 
@@ -116,10 +116,10 @@ try{
 
 
 /**
- * hash데이타값이 맞는 지 확인 하는 루틴은 세틀뱅크에서 받은 데이타가 맞는지 확인하는 것이므로 꼭 사용하셔야 합니다
+ * hash데이타값이 맞는 지 확인 하는 루틴은 헥토파이낸셜에서 받은 데이타가 맞는지 확인하는 것이므로 꼭 사용하셔야 합니다
  * 정상적인 결제 건임에도 불구하고 노티 페이지의 오류나 네트웍 문제 등으로 인한 hash 값의 오류가 발생할 수도 있습니다.
- * 그러므로 hash 오류건에 대해서는 오류 발생시 원인을 파악하여 즉시 수정 및 대처해 주셔야 합니다. 
- * 그리고 정상적으로 데이터를 처리한 경우에도 세틀뱅크에서 응답을 받지 못한 경우는 결제결과가 중복해서 나갈 수 있으므로 관련한 처리도 고려되어야 합니다
+ * 그러므로 hash 오류건에 대해서는 오류 발생시 원인을 파악하여 즉시 수정 및 대처해 주셔야 합니다.
+ * 그리고 정상적으로 데이터를 처리한 경우에도 헥토파이낸셜에서 응답을 받지 못한 경우는 결제결과가 중복해서 나갈 수 있으므로 관련한 처리도 고려되어야 합니다
 */
 if ($hashCipher == $pktHash) {
     log_message(NOTI_LOG_FILE, "[".$mchtTrdNo."][SHA256 Hash Check] hashCipher[".$hashCipher."] pktHash[".$pktHash."] equals?[TRUE]");
@@ -129,7 +129,7 @@ if ($hashCipher == $pktHash) {
     }
     else if ("0051" == $outStatCd ){
         log_message(NOTI_LOG_FILE, "[".$mchtTrdNo."][Wait For Deposit] params:".join("|", $noti));
-        $resp = noti_Waiting_pay($noti);
+        $resp = noti_waiting_pay($noti);
     }
     else{
         log_message(NOTI_LOG_FILE, "[".$mchtTrdNo."][Undefined Code] outStatCd:".$outStatCd);
@@ -141,7 +141,7 @@ else {
     $resp = noti_hash_error($noti);
 } 
 
-// OK, FAIL문자열은 세틀뱅크로 전송되어야 하는 값이므로 변경하거나 삭제하지마십시오.
+// OK, FAIL문자열은 헥토파이낸셜로 전송되어야 하는 값이므로 변경하거나 삭제하지마십시오.
 if ($resp){
     echo "OK";
     log_message(NOTI_LOG_FILE, "[".$mchtTrdNo."][Result] OK");
