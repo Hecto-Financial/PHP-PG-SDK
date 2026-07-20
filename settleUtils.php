@@ -111,8 +111,10 @@ function send_api( $targetUrl, $param = array(), $connTimeout, $timeout){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);                     //요청 결과를 문자열로 반환 
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $connTimeout);             //connection timeout
     curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);                        //total timeout
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);                    //원격 서버의 인증서가 유효한지 검사 안함
-    curl_setopt($ch, CURLOPT_POST, true);                               //true시 post 전송 
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);                     //원격 서버의 인증서 유효성 검사
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);                        //인증서의 호스트명 일치 검사
+    curl_setopt($ch, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);      //TLS 1.2 이상만 허용
+    curl_setopt($ch, CURLOPT_POST, true);                               //true시 post 전송
     curl_setopt($ch, CURLOPT_POSTFIELDS, $sendData);                    //POST data
     
     
