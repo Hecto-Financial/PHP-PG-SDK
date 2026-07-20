@@ -75,7 +75,7 @@ foreach( $RES_PARAMS as $key => $val) {
 log_message(LOG_FILE, $logStr);
 ?>
 <html>
-<head><title>S'Pay 결제 결과 페이지</title>
+<head><title>헥토파이낸셜 PG 결제 샘플</title>
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <style type="text/css">

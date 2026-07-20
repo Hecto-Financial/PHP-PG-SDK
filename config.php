@@ -69,7 +69,7 @@
 
     
     //로그 파일명 및 경로 수정
-    define("LOG_DIR", "C:/npg/php");                    //로그 디렉터리(디렉터리가 존재하지 않으면, 로그 파일 생성하지 않습니다.)
+    define("LOG_DIR", "/var/log/hecto");                    //로그 디렉터리(디렉터리가 존재하지 않으면, 로그 파일 생성하지 않습니다.) 예시: Linux "/var/log/hecto", Windows "C:/logs/hecto"
     define("LOG_FILE", "trans.log");                    //일반 거래 로그 파일명
     define("NOTI_LOG_FILE", "noti_trans.log");          //노티 처리 로그 파일명
 ?>

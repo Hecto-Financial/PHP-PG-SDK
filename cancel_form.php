@@ -9,7 +9,7 @@ include_once "config.php";
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>S'Pay 취소 페이지</title>
+<title>헥토파이낸셜 PG 취소 샘플</title>
 <style type="text/css">
     body                    {font-family:굴림; font-size:10pt; color:#000000; text-decoration:none;}
     font                    {font-family:굴림; font-size:10pt; color:#000000;  text-decoration:none;}
