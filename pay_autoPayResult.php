@@ -217,67 +217,67 @@ try{
     <table>
         <tr>
             <td class="left">mchtId[상점아이디]</td>
-            <td class="right"><?php echo $respParam["mchtId"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["mchtId"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">ver[버전]</td>
-            <td class="right"><?php echo $respParam["ver"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["ver"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">method[결제수단]</td>
-            <td class="right"><?php echo $respParam["method"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["method"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">bizType[업무구분]</td>
-            <td class="right"><?php echo $respParam["bizType"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["bizType"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">encCd[암호화구분]</td>
-            <td class="right"><?php echo $respParam["encCd"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["encCd"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">mchtTrdNo[상점주문번호]</td>
-            <td class="right"><?php echo $respParam["mchtTrdNo"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["mchtTrdNo"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">trdNo[세틀뱅크 거래번호]</td>
-            <td class="right"><?php echo $respParam["trdNo"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["trdNo"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">trdDt[요청일자]</td>
-            <td class="right"><?php echo $respParam["trdDt"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["trdDt"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">trdTm[요청시간]</td>
-            <td class="right"><?php echo $respParam["trdTm"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["trdTm"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">outStatCd[거래상태코드]</td>
-            <td class="right"><?php echo $respParam["outStatCd"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["outStatCd"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">outRsltCd[거래결과코드]</td>
-            <td class="right"><?php echo $respParam["outRsltCd"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["outRsltCd"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">outRsltMsg[결과메세지]</td>
-            <td class="right"><?php echo $respParam["outRsltMsg"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["outRsltMsg"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">pktHash[해쉬값]</td>
-            <td class="right"><?php echo $respParam["pktHash"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["pktHash"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">telCo[통신사]</td>
-            <td class="right"><?php echo $respParam["telCo"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["telCo"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">trdAmt[거래금액]</td>
-            <td class="right"><?php echo $respParam["trdAmt"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["trdAmt"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
             <td class="left">billKey[자동결제키]</td>
-            <td class="right"><?php echo $respParam["billKey"] ?></td>
+            <td class="right"><?php echo htmlspecialchars($respParam["billKey"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
 
         <tr>
