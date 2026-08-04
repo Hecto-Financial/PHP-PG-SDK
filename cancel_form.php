@@ -38,7 +38,7 @@ var REQ_PARAMS = new Object();
 
 //포인트/티머니/상품권류 요청파라미터
 REQ_PARAMS.common = {
-    orgTrdNo : '세틀뱅크 원거래번호',
+    orgTrdNo : '헥토파이낸셜 원거래번호',
     crcCd : '통화구분',
     cnclAmt : '취소거래금액',
     cnclOrd : '취소회차',
@@ -46,7 +46,7 @@ REQ_PARAMS.common = {
 };
 //신용카드 요청파라미터
 REQ_PARAMS.card = {
-    orgTrdNo : '세틀뱅크 원거래번호',
+    orgTrdNo : '헥토파이낸셜 원거래번호',
     crcCd : '통화구분',
     cnclAmt : '취소거래금액',
     cnclOrd : '취소회차',
@@ -59,7 +59,7 @@ REQ_PARAMS.card = {
 };
 //휴대폰/계좌이체 요청파라미터
 REQ_PARAMS.commonTax = {
-    orgTrdNo : '세틀뱅크 원거래번호',
+    orgTrdNo : '헥토파이낸셜 원거래번호',
     crcCd : '통화구분',
     cnclAmt : '취소거래금액',
     cnclOrd : '취소회차',
@@ -71,13 +71,13 @@ REQ_PARAMS.commonTax = {
 };
 //가상계좌/010가상계좌 채번취소 요청파라미터
 REQ_PARAMS.vbankCancel = {
-    orgTrdNo : '세틀뱅크 원거래번호',
+    orgTrdNo : '헥토파이낸셜 원거래번호',
     vAcntNo : '가상계좌번호'
 };
 
 //가상계좌/010가상계좌/휴대폰결제 환불 요청파라미터
 REQ_PARAMS.refund = {
-    orgTrdNo : '세틀뱅크 원거래번호',
+    orgTrdNo : '헥토파이낸셜 원거래번호',
     crcCd : '통화구분',
     cnclAmt : '환불거래금액',
     cnclOrd : '취소회차',
@@ -93,7 +93,7 @@ REQ_PARAMS.refund = {
 
 //간편결제 요청파라미터
 REQ_PARAMS.corp = {
-    orgTrdNo : '세틀뱅크 원거래번호',
+    orgTrdNo : '헥토파이낸셜 원거래번호',
     crcCd : '통화구분',
     cnclAmt : '취소거래금액',
     cnclOrd : '취소회차',
