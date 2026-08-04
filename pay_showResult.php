@@ -10,7 +10,7 @@
     $method             = null_to_empty(get_param("respMethod"));           //결제수단
     $mchtTrdNo          = null_to_empty(get_param("respMchtTrdNo"));        //상점주문번호
     $mchtCustId         = null_to_empty(get_param("respMchtCustId"));       //상점고객아이디
-    $trdNo              = null_to_empty(get_param("respTrdNo"));            //세틀뱅크 거래번호
+    $trdNo              = null_to_empty(get_param("respTrdNo"));            //헥토파이낸셜 거래번호
     $trdAmt             = null_to_empty(get_param("respTrdAmt"));           //거래금액
     $mchtParam          = null_to_empty(get_param("respMchtParam"));        //상점예약필드
     $authDt             = null_to_empty(get_param("respAuthDt"));           //승인일시
@@ -80,7 +80,7 @@
             <td class="right"><?php echo $mchtCustId ?></td>
         </tr>
         <tr>
-            <td class="left">trdNo[세틀뱅크거래번호]</td>
+            <td class="left">trdNo[헥토파이낸셜거래번호]</td>
             <td class="right"><?php echo $trdNo ?></td>
         </tr>
         <tr>
