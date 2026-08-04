@@ -281,7 +281,7 @@ try{
             <td class="right"><?php echo htmlspecialchars($respParam["mchtTrdNo"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
-            <td class="left">trdNo[세틀뱅크 거래번호]</td>
+            <td class="left">trdNo[헥토파이낸셜 거래번호]</td>
             <td class="right"><?php echo htmlspecialchars($respParam["trdNo"], ENT_QUOTES, "UTF-8") ?></td>
         </tr>
         <tr>
