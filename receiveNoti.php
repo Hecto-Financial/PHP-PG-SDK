@@ -102,7 +102,15 @@ $noti = array(
 
 /** 해쉬 조합 필드
  *  결과코드 +  거래일시 + 상점아이디 + 가맹점거래번호 + 거래금액(평문) + 라이센스키 */
-$hashPlain = $outStatCd.$trdDtm.$mchtId.$mchtTrdNo.$trdAmt.$licenseKey;
+/* [주의] 해시 입력은 반드시 수신한 원본 값을 사용합니다.
+   화면 출력용으로 가공된 값(get_param)으로 해시를 만들면, 상점주문번호 등에
+   특수문자가 포함된 정상 노티가 검증에 실패해 결제가 누락됩니다. */
+$hashPlain = null_to_empty(get_raw_param("outStatCd"))
+           . null_to_empty(get_raw_param("trdDtm"))
+           . null_to_empty(get_raw_param("mchtId"))
+           . null_to_empty(get_raw_param("mchtTrdNo"))
+           . null_to_empty(get_raw_param("trdAmt"))
+           . $licenseKey;
 $hashCipher ="";
 
 /** SHA256 해쉬 처리 */
@@ -121,7 +129,10 @@ try{
  * 그러므로 hash 오류건에 대해서는 오류 발생시 원인을 파악하여 즉시 수정 및 대처해 주셔야 합니다.
  * 그리고 정상적으로 데이터를 처리한 경우에도 헥토파이낸셜에서 응답을 받지 못한 경우는 결제결과가 중복해서 나갈 수 있으므로 관련한 처리도 고려되어야 합니다
 */
-if ($hashCipher == $pktHash) {
+/* 해시 비교는 상수 시간 비교 함수를 사용합니다.
+   ==는 처음 다른 문자에서 즉시 끝나 비교 시간이 정보를 노출하며,
+   양쪽이 "0e..." 형태의 숫자문자열이면 타입 저글링으로 참이 될 수 있습니다. */
+if (hash_equals($hashCipher, null_to_empty(get_raw_param("pktHash")))) {
     log_message(NOTI_LOG_FILE, "[".$mchtTrdNo."][SHA256 Hash Check] hashCipher[".$hashCipher."] pktHash[".$pktHash."] equals?[TRUE]");
     if ("0021" == $outStatCd ){
         log_message(NOTI_LOG_FILE, "[".$mchtTrdNo."][Success] params:".join("|", $noti));
