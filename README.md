@@ -95,5 +95,5 @@
 
 ## 문의
 
-- 기술 문의: [헥토파이낸셜 개발자 센터](https://developers.hectofinancial.co.kr)
-- 가맹점 문의: 1688-5130
+- 기술 문의: pgsupport@hecto.co.kr
+- 개발 가이드: [헥토파이낸셜 개발자 센터](https://developers.hectofinancial.co.kr)
