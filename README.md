@@ -4,7 +4,11 @@
 
 > 공식 개발자 문서: [https://developers.hectofinancial.co.kr/docs/api/pg/sdk/01-sdk](https://developers.hectofinancial.co.kr/docs/api/pg/sdk/01-sdk)
 
-**권장 버전**: PHP 5.3 이상 + openssl 패키지 (권장)
+**권장 버전**: PHP 8.2 이상 (보안 패치 적용 버전: 8.2.35 / 8.3.36 / 8.4.27 / 8.5.12 이상) + curl, openssl 확장
+
+> ⚠️ PHP 런타임 취약점 CVE-2026-109618, CVE-2026-109619(PHP2Shell)는 PHP 5.4 ~ 8.5.11 전 버전에 영향을 줍니다. 본 샘플을 운영 환경에 적용할 경우 반드시 위 패치 버전 이상의 PHP를 사용하세요. PHP 8.1 이하는 공식 패치가 제공되지 않습니다.
+>
+> 이전 PHP 버전용 샘플 코드는 [v1.0.0 Release](https://github.com/Hecto-Financial/PHP-PG-SDK/releases/tag/v1.0.0)에서 받을 수 있습니다.
 
 ## 개요
 
