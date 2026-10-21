@@ -105,7 +105,7 @@ function prevent_xss( $param){
 
 
 /* CURL POST전송 */
-function send_api( $targetUrl, $param = array(), $connTimeout, $timeout){
+function send_api( $targetUrl, $param, $connTimeout, $timeout){
     $tmp = $param["params"];
     $mchtTrdNo = $tmp["mchtTrdNo"];
     
@@ -142,7 +142,6 @@ function send_api( $targetUrl, $param = array(), $connTimeout, $timeout){
     }
 
     $HTTP_CODE = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);//curl 통신 종료
 
  
 
